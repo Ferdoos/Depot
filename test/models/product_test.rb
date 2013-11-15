@@ -6,10 +6,10 @@ class ProductTest < ActiveSupport::TestCase
 test "product attributes must not be empty" do
 product = Product.new
 assert product.invalid?
-assert product.errors[:title].any?
-assert product.errors[:description].any?
-assert product.errors[:price].any?
-assert product.errors[:image_url].any?
+assert product.errors[ :title].any?
+assert product.errors[ :description].any?
+assert product.errors[ :price].any?
+assert product.errors[ :image_url].any?
 end
 
 test "product price must be positive" do
@@ -19,12 +19,12 @@ test "product price must be positive" do
 product.price = -1
 assert product.invalid?
 assert_equal ["must be greater than or equal to 0.01"],
-product.errors[:price]
+product.errors[ :price]
 
 product.price = 0
 assert product.invalid?
 assert_equal ["must be greater than or equal to 0.01"],
-product.errors[:price]
+product.errors[ :price]
 
 product.price = 1
 assert product.valid?
@@ -50,15 +50,16 @@ end
 		bad.each do |name|
 			assert new_product(name).invalid?, "#{name} shouldn't be valid"
 		end
+	end
 
 	test "the product is not valid without a unique title - i18n" do
-		product = Product.new(title: 		products(:ruby).title,
+		product = Product.new(title: 		products( :ruby).title,
 													description: "yyy",
 													price: 			1,
 													image_url: 	"fred.gif")
 		assert product.invalid?
 		assert_equal [I18n.translate('errors.messages.taken')], 
 		product.errors[:title]
-		end
 	end
+	
 end
